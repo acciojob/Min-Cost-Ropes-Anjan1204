@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Minimum Rope Cost Calculator</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Min Cost Ropes</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h2>Connect Ropes - Minimum Cost Calculator</h2>
-    <input id="ropeInput" type="text" placeholder="Enter rope lengths (e.g. 4,3,2,6)" />
+    <h1>Minimum Cost to Connect Ropes</h1>
+
+    <label for="ropeInput">Enter Rope Lengths (comma-separated):</label>
+    <input type="text" id="ropeInput" placeholder="e.g. 4, 3, 2, 6">
+
     <button onclick="calculateMinCost()">Calculate</button>
-    <div class="output" id="result"></div>
+
+    <p id="result">Minimum Cost: <span id="minCost">---</span></p>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
