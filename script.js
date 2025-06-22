@@ -1,81 +1,34 @@
-// Min Heap class
-class MinHeap {
-  constructor() {
-    this.heap = [];
-  }
-
-  insert(val) {
-    this.heap.push(val);
-    this.bubbleUp();
-  }
-
-  extractMin() {
-    if (this.heap.length <= 1) return this.heap.pop();
-    const min = this.heap[0];
-    this.heap[0] = this.heap.pop();
-    this.bubbleDown();
-    return min;
-  }
-
-  size() {
-    return this.heap.length;
-  }
-
-  bubbleUp() {
-    let idx = this.heap.length - 1;
-    while (idx > 0) {
-      let parent = Math.floor((idx - 1) / 2);
-      if (this.heap[idx] >= this.heap[parent]) break;
-      [this.heap[idx], this.heap[parent]] = [this.heap[parent], this.heap[idx]];
-      idx = parent;
-    }
-  }
-
-  bubbleDown() {
-    let idx = 0;
-    let length = this.heap.length;
-    while (true) {
-      let left = 2 * idx + 1;
-      let right = 2 * idx + 2;
-      let smallest = idx;
-
-      if (left < length && this.heap[left] < this.heap[smallest]) {
-        smallest = left;
-      }
-      if (right < length && this.heap[right] < this.heap[smallest]) {
-        smallest = right;
-      }
-      if (smallest === idx) break;
-      [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
-      idx = smallest;
-    }
-  }
-}
-
-// Main mincost function
 function mincost(arr) {
-  const heap = new MinHeap();
-  for (let num of arr) {
-    heap.insert(num);
+  let cost = 0;
+
+  while (arr.length > 1) {
+    arr.sort((a, b) => a - b); // Sort to find 2 smallest ropes
+
+    const first = arr.shift();
+    const second = arr.shift();
+
+    const sum = first + second;
+    cost += sum;
+    arr.push(sum);
   }
 
-  let totalCost = 0;
-
-  while (heap.size() > 1) {
-    let first = heap.extractMin();
-    let second = heap.extractMin();
-    let cost = first + second;
-    totalCost += cost;
-    heap.insert(cost);
-  }
-
-  return totalCost;
+  return cost;
 }
 
-// Handler
 function calculateMinCost() {
-  const input = document.getElementById('ropeInput').value;
-  const arr = input.split(',').map(Number).filter(n => !isNaN(n));
+  const input = document.getElementById("ropeInput").value.trim();
+  if (!input) {
+    document.getElementById("result").textContent = "Please enter valid rope lengths.";
+    return;
+  }
+
+  const arr = input.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x) && x > 0);
+
+  if (arr.length === 0) {
+    document.getElementById("result").textContent = "Please enter valid rope lengths.";
+    return;
+  }
+
   const result = mincost(arr);
-  document.getElementById('minCost').textContent = result;
+  document.getElementById("result").textContent = `Minimum cost to connect all ropes is: ${result}`;
 }
