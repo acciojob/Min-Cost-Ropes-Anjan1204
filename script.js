@@ -1,42 +1,37 @@
 function calculateMinCost() {
-  const input = document.getElementById("ropeInput").value;
-  const arr = input
-    .split(",")
-    .map(Number)
-    .filter((n) => !isNaN(n) && n > 0);
-
+  const input = document.getElementById('ropeInput').value;
+  const arr = input.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+  
   if (arr.length < 2) {
-    document.getElementById("result").textContent =
-      "Please enter at least 2 valid rope lengths.";
+    document.getElementById('result').innerText = "Enter at least two valid rope lengths.";
     return;
   }
 
-  const totalCost = minCost(arr);
-  document.getElementById("result").textContent =
-    "Minimum cost to connect all ropes: " + totalCost;
+  const cost = mincost(arr);
+  document.getElementById('result').innerText = `Minimum cost to connect ropes: ${cost}`;
 }
 
-function minCost(arr) {
-  let total = 0;
+function mincost(arr) {
   arr.sort((a, b) => a - b);
+  let totalCost = 0;
 
   while (arr.length > 1) {
     const first = arr.shift();
     const second = arr.shift();
-    const cost = first + second;
-    total += cost;
+    const sum = first + second;
+    totalCost += sum;
 
-    // insert in sorted position
+    // Insert sum in the correct position to keep array sorted
     let inserted = false;
     for (let i = 0; i < arr.length; i++) {
-      if (cost < arr[i]) {
-        arr.splice(i, 0, cost);
+      if (sum < arr[i]) {
+        arr.splice(i, 0, sum);
         inserted = true;
         break;
       }
     }
-    if (!inserted) arr.push(cost);
+    if (!inserted) arr.push(sum);
   }
 
-  return total;
+  return totalCost;
 }
